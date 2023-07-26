@@ -371,6 +371,37 @@ on
 ```
 其中链接方式可替换成外连接
 
+
+#### union合并查询结果集
+UNION是一种用于合并两个或多个SELECT查询结果的操作符。它用于将两个或多个查询的结果集合并为一个结果集，并**自动去除重复的行**。要使用UNION，**查询的列数和数据类型必须匹配**
+
+```sql
+SELECT column1, column2, ...
+FROM table1
+WHERE condition
+UNION
+SELECT column1, column2, ...
+FROM table2
+WHERE condition;
+
+两个select语句的结果将会合并为一个结果集，并在结果中去除重复的行
+如果想保留重复的行，可以使用union all操作符。
+```
+
+```sql
+示例
+select employee_name
+from employees
+union
+select contractor_name
+from contractors;
+
+上面的查询将返回一个包含所有员工和合同工姓名的列表，并且会自动去除重复的姓名
+```
+
+相对于表连接，union的效率要高一些
+union可以减少匹配的次数，在减少匹配次数的情况下，依然可以完成两个结果集的拼接
+
 ### 子查询
 定义：select语句中嵌套select语句，被嵌套的select语句称为子查询
 ```sql
@@ -419,6 +450,90 @@ from
 
 **临时表和临时变量都必须取别名保存下来，即本例中的临时表取名t，临时表中的`avg(SAL)`取别名a**
 否则会报错，因为SQL服务端语句解析句每次都会重新解析函数关键字
+
+#### select后面的子查询（略微了解即可）
+SELECT语句的后面的子查询，作为一个额外的列或计算结果。这种子查询被称为“*标量子查询*”，因为它返回单个值而不是一组记录。
+
+```sql
+
+select 
+    e.ENAME, e.DEPTNO, (select 
+                            d.DNAME 
+                        from 
+                            DEPT d 
+                        where 
+                            e.DEPTNO = d.DEPTNO) as dname 
+                    
+from 
+    EMP e;
+
+结果：
++--------+--------+------------+
+| ENAME  | DEPTNO | dname      |
++--------+--------+------------+
+| SMITH  |     20 | RESEARCH   |
+| ALLEN  |     30 | SALES      |
+| WARD   |     30 | SALES      |
+| JONES  |     20 | RESEARCH   |
+| MARTIN |     30 | SALES      |
+| BLAKE  |     30 | SALES      |
+| CLARK  |     10 | ACCOUNTING |
+| SCOTT  |     20 | RESEARCH   |
+| KING   |     10 | ACCOUNTING |
+| TURNER |     30 | SALES      |
+| ADAMS  |     20 | RESEARCH   |
+| JAMES  |     30 | SALES      |
+| FORD   |     20 | RESEARCH   |
+| MILLER |     10 | ACCOUNTING |
++--------+--------+------------+
+
+注：此处不需要用到表连接
+```
+<span style="color:red">*select后面的子查询只能一次返回一条查询结果，若结果多于一条则会报错
+
+### limit 取出查询结果的一部分(重要)
+limit可以限制返回结果的条数，在分页查询和限制结果集大小方面起很大作用
+
+<span style="color:orange">MySQL中limit在order by之后执行
+
+```sql
+不指定开始行数：
+select column1, column2, ...
+from table_name
+where condition
+limit length;
+```
+- `length`: 指定要返回的行数。它表示要从查询结果中返回多少行数据。
+
+```sql
+指定开始行数：
+select column1, column2, ...
+from table_name
+where condition
+limit startIndex, length;
+```
+- `startIndex` ：指定截取开始行数的下标（起始下标为0）
+- `length`: 指定要返回的行数。它表示要从查询结果中返回多少行数据。
+
+#### `limit`和`offset`连用
+效果和limit后面两个参数一样
+
+- `offset`: 指定查询结果开始的行数偏移量。它表示从查询结果中的哪一行开始返回数据。通常，第一行的偏移量是0
+```sql
+select * 
+from employees 
+limit 5 offset 6;
+
+从7行始返回5条记录
+```
+实际用法：
+分页显示——将结果分成几页进行显示，提高用户体验
+
+#### 通用分页方法
+```sql
+
+```
+
 
 **** 
 ## DML：
