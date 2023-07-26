@@ -7,7 +7,7 @@
 1. 拉取镜像：
 `docker pull mysql`
 2. 运行容器：
-` code docker run -d -p 3306:3306 --name mysql-name -e MYSQL_ROOT_PASSWORD=password mysql`
+` docker run -d -p 3306:3306 --name mysql-name -e MYSQL_ROOT_PASSWORD=password mysql`
 
 - -d:设置为一直运行
 - --name: 设置容器名字
