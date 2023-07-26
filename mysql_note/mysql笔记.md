@@ -256,7 +256,7 @@ where 和 having： where是在分组前对数据进行过滤，having则是在�
             如果某个表中没有匹配的记录，对应的部分将填充为NULL。
 
 #### `join ..on .. `/ `inner join ..on ..`内连接
-1.`=`等值链接:
+#####`=`等值链接:
 ```sql
 select <table1>.<field1>, <table2>.<field2> 
 from <table1> join <table2> 
@@ -273,11 +273,11 @@ on f.deptno = s.deptno
 ```
 - 先将表first_ 和表second_ 分别区别名f和s，然后将f和s中deptno相同的项连接在一起，在连接的项目中查找表f和表s的name项目。
 
-2. 非等值链接
+##### 非等值链接
 `on`后面的条件不是等值关系，则称为非等值链接。
 如：join .. on .. between .. and ..
 
-3. 自连接
+##### 自连接
 <span style="color:orange">一张表看做两张表
 
 将一个表视为两个逻辑表，并在该表内部进行连接。通过使用表中的关联字段来关联这些记录。
@@ -315,8 +315,110 @@ ON e1.manager_id = e2.employee_id;
 ```
 
 #### 外链接：
+`outer join`和`join`一样，即outer可省略
+##### 左外连接（左连）
+```sql
+select *
+from 左表
+left join 右表 on 左表.列 = 右表.列;
+```
+（左表为主表）
+这种连接类型将返回**左表中所有的行**，以及**与右表中匹配的行**。如果右表中没有匹配的行，则返回的结果中相关列的值将为**NULL**。左外连接使用**LEFT JOIN**关键字来表示。
 
 
+##### 右外连接（右连）
+```sql
+select *
+from 左表
+right join 右表 on 左表.列 = 右表.列;
+```
+（右表为主表）
+这种连接类型将返回**右表中所有的行**，以及**与左表中匹配的行**。如果左表中没有匹配的行，则返回的结果中相关列的值将为**NULL**。右外连接使用**RIGHT JOIN**关键字来表示。
+
+#### 全外连接：
+```sql
+select *
+from 左表
+left join 右表 on 左表.列 = 右表.列
+union
+select *
+from 左表
+right join 右表 on  左表.列 = 右表.列;
+```
+这种连接类型**返回左表和右表中所有的行，并将它们组合在一起**。如果某个表中没有匹配的行，则返回的结果中相关列的值将为**NULL**。注意：MySQL本身不直接支持全外连接，但可以通过使用**union**操作符+**外连接**来模拟实现全外连接的效果。
+
+<span style="color:orange">查询结果条数：外连接 > 内连接
+
+#### 多张表链接
+```sql
+select 
+    ...
+from
+    a
+join 
+    b
+on
+    a 和 b 的链接条件
+join 
+    c
+on 
+    a 和 c 的链接a条件
+join
+    d
+on
+    a 和 d 的链接a条件
+...
+```
+其中链接方式可替换成外连接
+
+### 子查询
+定义：select语句中嵌套select语句，被嵌套的select语句称为子查询
+```sql
+select 
+    ...
+from 
+    ...(select).
+where 
+    ...(select).
+```
+#### where 中的子查询
+```sql
+select 
+    ENAME,SAL 
+from 
+    EMP 
+where 
+    SAL>(select min(SAL) from EMP);
+
+//查询所有比最低工资高的员工的名字和薪资
+```
+
+#### from中的子查询
+**from后面的子查询，可以将子查询的查询结果当做一张临时表**
+
+```sql
+SELECT column1, column2
+FROM (SELECT column1, column2 FROM table1 WHERE condition) AS subquery;
+```
+示例：
+```sql
+设有EMP和SALGRADE两表分别存储员工信息和薪资等级的薪资范围
+为求每个工作岗位的薪资平均值所处的等级：
+
+select t.*,s.GRADE 
+from 
+    (select JOB,avg(SAL) as a from EMP group by JOB) as t 
+    join 
+        SALGRADE s 
+    on 
+        t.a between s.LOSAL and s.HISAL;
+```
+解读：
+- 先将在EMP表中搜索岗位和岗位薪资平均值`(select JOB,avg(SAL) as a from EMP group by JOB)`,形成一张临时表取名t
+- 再将t临时表和SALGRADE表连接查询t表中的平均薪资在SALGRADE表中所处的等级
+
+**临时表和临时变量都必须取别名保存下来，即本例中的临时表取名t，临时表中的`avg(SAL)`取别名a**
+否则会报错，因为SQL服务端语句解析句每次都会重新解析函数关键字
 
 **** 
 ## DML：
