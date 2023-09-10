@@ -60,6 +60,12 @@ git的底层原理：
 
 但`No commits yet`提示我们还未有文件提交到本地git仓库
 
+
+
+反之，把文件移出暂存区：`git rm <文件名/文件夹>`。
+
+
+
 ## 将暂存区的文件提交的本地仓库: git commit
 
 当我们输入git commit后会将暂存区内的文件全部提交到本地仓库
@@ -382,8 +388,6 @@ master前进到了cat的位置，这是一个很有趣的结果。
 
 > 另一种链接方式是用https链接，这种模式只能链接public仓库，此处讲解ssh链接
 
-
-
 ### 1.创建SSH Key (ssh 公钥)。
 
 ssh key存储在用户主目录（C:\Users\Administrator\.ssh 或 ~/.ssh）下，如果存在，再看.ssh文件夹下有无id_rsa和id_rsa.pub这两个文件，id_rsa.pub即是公钥,而id_rsa是私钥。
@@ -406,15 +410,11 @@ ssh key存储在用户主目录（C:\Users\Administrator\.ssh 或 ~/.ssh）下�
 
 若看到 hi + 用户名说明密钥验证通过了，成功链接上了github账号
 
-
-
 ## `git remote` :查询当前仓库链接的所有远程仓库
 
 无参命令会简洁显示所有仓库的名字，若是想详细看到仓库地址，可用以下命令
 
 `g8it remote -v`
-
-
 
 ## `git remote add <自定义仓库名称> <仓库地址或ssh链接>`
 
