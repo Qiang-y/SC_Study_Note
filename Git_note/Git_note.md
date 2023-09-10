@@ -402,15 +402,11 @@ ssh key存储在用户主目录（C:\Users\Administrator\.ssh 或 ~/.ssh）下�
 
 若看到 hi + 用户名说明密钥验证通过了，成功链接上了github账号
 
-
-
 ## `git remote` :查询当前仓库链接的所有远程仓库
 
 无参命令会简洁显示所有仓库的名字，若是想详细看到仓库地址，可用以下命令
 
 `g8it remote -v`
-
-
 
 ## `git remote add <自定义仓库名称> <仓库地址或ssh链接>`
 
