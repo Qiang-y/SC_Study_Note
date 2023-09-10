@@ -380,6 +380,10 @@ master前进到了cat的位置，这是一个很有趣的结果。
 
 为本地Git仓库和GitHub仓库之间的传输是通过SSH加密传输的，GitHub需要识别是否是你推送，GitHub只要知道了你的公钥，就可以确认你的身份，所以需要配置ssh key。（相当于登录GitHub账号）
 
+> 另一种链接方式是用https链接，这种模式只能链接public仓库，此处讲解ssh链接
+
+
+
 ### 1.创建SSH Key (ssh 公钥)。
 
 ssh key存储在用户主目录（C:\Users\Administrator\.ssh 或 ~/.ssh）下，如果存在，再看.ssh文件夹下有无id_rsa和id_rsa.pub这两个文件，id_rsa.pub即是公钥,而id_rsa是私钥。
