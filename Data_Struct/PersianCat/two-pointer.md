@@ -1,10 +1,12 @@
 # 双指针
+
 ### 经典问题：给定一个链表，判断链表中是否有环。
+
 解决方案：使用双指针，令两个指针移动的速度快慢不同，想象一下，有两个速度不同的跑步者。如果他们在直路上行驶，快跑者将首先到达目的地。但是，如果他们在圆形跑道上跑步，那么快跑者如果继续跑步就会追上慢跑者。这正是我们在链表中使用两个速度不同的指针时会遇到的情况：
 
 * 如果没有环，快指针将停在链表的末尾。
 * 如果有环，快指针最终将与慢指针相遇。
-所以剩下的问题是：
+  所以剩下的问题是：
 
 这两个指针的适当速度应该是多少？
 
@@ -33,6 +35,7 @@
 题解：https://leetcode.cn/problems/linked-list-cycle-ii/solutions/12616/linked-list-cycle-ii-kuai-man-zhi-zhen-shuang-zhi-/
 
 ### 相交链表
+
 ![](ldpict/xjListNode.png)
 
 题目数据 保证 整个链式结构中不存在环。
@@ -42,12 +45,14 @@
 题解：https://leetcode.cn/problems/intersection-of-two-linked-lists/solution/
 
 ### 删除链表的第N个节点
+
 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
 ![](ldpict/deleteListNode.jpg)
 
 题解：https://leetcode.cn/problems/remove-nth-node-from-end-of-list/solution/
 
 ### 链表双指针问题解决的模板
+
 ```C++
 // Initialize slow & fast pointers
 ListNode* slow = head;
@@ -65,8 +70,11 @@ while (slow && fast && fast->next) {
 }
 return false;   // change return value to fit specific problem
 ```
+
 ### 注意事项
+
 #### 在调用 next 字段之前，始终检查节点是否为空。
 
 获取空节点的下一个节点将导致空指针错误。例如，在我们运行 fast = fast.next.next 之前，需要检查 fast 和 fast.next 不为空。
+
 #### 仔细定义循环的结束条件。

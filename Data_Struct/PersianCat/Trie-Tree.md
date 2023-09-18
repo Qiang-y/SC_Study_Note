@@ -1,7 +1,11 @@
 # Trie Tree
+
 概念：字典树（TrieTree），是一种树形结构，典型应用是用于统计，排序和保存大量的字符串（但不仅限于字符串,如01字典树）。主要思想是利用字符串的公共前缀来节约存储空间。很好地利用了串的公共前缀，节约了存储空间。字典树主要包含两种操作，插入和查找。
+
 ## 字典树代码实现方法
+
 ### 通过二维数组实现
+
 在用代码实现字典树时，我们主要需要实现两种操作：即录入单词和查找单词.
 1.我们用一个二维数组来实现字典树的建树。先把代码写出来，之后再解释。
 `const int N = 1000050;   
@@ -17,21 +21,21 @@ void insert(string s)
 {
 
         int p = 0;
-        
+    
         for (int i = 0; i < s.size(); i++)
-        
+    
         {
-        
+    
                 int x = s[i] - 'a';
-                
+    
                 if (trie[p][x] == 0) trie[p][x] = ++id;
-                
+    
                 p = trie[p][x];
-                
+    
         }
-        
+    
         cnt[p]++;
-        
+
 }
 
 int  find(string s)
@@ -39,21 +43,21 @@ int  find(string s)
 {
 
         int p = 0;
-        
+    
         for (int i = 0; i < s.size(); i++)
-        
+    
         {
-        
+    
                 int x = s[i] - 'a';
-                
+    
                 if (trie[p][x] == 0)return 0;
-                
+    
                 p = trie[p][x];
-                
+    
         }
-        
+    
         return cnt[p];
-        
+
 }`
 
 trie[N][26] ： 每个trie代表一条边，字典树其中1\~N为边上方节点的编号，0代表root节点，1\~26为连在i节点下方的26个字母。如果trie[i][x]=0,则代表字典树中目前没有这个点，而trie[i][x]的值代表这个点下方连有的点的编号，例如：trie[i][2]=9代表第i号点和的下方连有一个点‘c’，并且那个点的编号是9，为什么是c呢？因为 ‘c’-‘a’=2
@@ -78,23 +82,23 @@ private:
     Trie* searchPrefix(string prefix) {
     
         Trie* node = this;
-        
+    
         for (char ch : prefix) {
-        
+    
             ch -= 'a';
-            
+    
             if (node->children[ch] == nullptr) {
-            
+    
                 return nullptr;
-                
+    
             }
-            
+    
             node = node->children[ch];
-            
+    
         }
-        
+    
         return node;
-        
+    
     }
 
 public:
@@ -104,39 +108,39 @@ public:
     void insert(string word) {
     
         Trie* node = this;
-        
+    
         for (char ch : word) {
-        
+    
             ch -= 'a';
-            
+    
             if (node->children[ch] == nullptr) {
-            
+    
                 node->children[ch] = new Trie();
-                
+    
             }
-            
+    
             node = node->children[ch];
-            
+    
         }
-        
+    
         node->isEnd = true;
-        
+    
     }
     
     bool search(string word) {
     
         Trie* node = this->searchPrefix(word);
-        
+    
         return node != nullptr && node->isEnd;
-        
+    
     }
     
     bool startsWith(string prefix) {
     
         return this->searchPrefix(prefix) != nullptr;
-        
-    }
     
+    }
+
 };`
 
 作者：力扣官方题解
