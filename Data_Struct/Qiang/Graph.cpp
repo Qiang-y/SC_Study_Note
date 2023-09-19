@@ -141,11 +141,8 @@ public:
 		isJoin[root] == 1;
 		lowCost[root].coast = 0;
 		Node* Root = new Node(root);
-		//
-		//
-		while()
-		//
 		int temp = root;
+		
 	}
 };
 
